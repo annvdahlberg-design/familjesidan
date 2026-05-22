@@ -1,0 +1,78 @@
+{
+  "site": {
+    "familyName": "Familjen Svensson",
+    "welcome": "Välkommen hem 🌿",
+    "subtitle": "Vår privata plats för familjen"
+  },
+  "theme": "warm",
+  "members": [
+    {
+      "name": "Mamma",
+      "role": "Mamma",
+      "description": "Älskar trädgård och söndagsfika ☕",
+      "emoji": "🌸"
+    },
+    {
+      "name": "Pappa",
+      "role": "Pappa",
+      "description": "Grillfantast och fotbollscoach ⚽",
+      "emoji": "⚽"
+    },
+    {
+      "name": "Ella",
+      "role": "Storasyster",
+      "description": "Spelar piano och drömmer om Paris 🎹",
+      "emoji": "🎹"
+    },
+    {
+      "name": "Lukas",
+      "role": "Lillebror",
+      "description": "Minecraft-mästare och hockeyspelare 🏒",
+      "emoji": "🏒"
+    }
+  ],
+  "events": [
+    {
+      "date": "2026-05-24",
+      "title": "Ellas pianokonsert 🎹",
+      "details": "Kl 18:00 · Musikskolan"
+    },
+    {
+      "date": "2026-05-30",
+      "title": "Morfar fyller år 🎂",
+      "details": "Kl 15:00 · Morfar & Mormors"
+    },
+    {
+      "date": "2026-06-06",
+      "title": "Nationaldagen 🇸🇪",
+      "details": "Picknick i parken"
+    },
+    {
+      "date": "2026-06-21",
+      "title": "Midsommar 🌸",
+      "details": "Hos farmor & farfar"
+    }
+  ],
+  "messages": [
+    {
+      "author": "Mamma",
+      "text": "Kom ihåg att köpa mjölk och bröd på vägen hem! 🛒",
+      "date": "I dag"
+    },
+    {
+      "author": "Pappa",
+      "text": "Träning är inställd på fredag. Nytt datum meddelas senare.",
+      "date": "I går"
+    },
+    {
+      "author": "Ella",
+      "text": "Jag fick A på musikteoriprovnet! 🎉🎵",
+      "date": "23 maj"
+    },
+    {
+      "author": "Lukas",
+      "text": "Kan vi ha tacos på fredag? Pleaaase? 🌮",
+      "date": "21 maj"
+    }
+  ]
+}

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vår familj</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== TEMAN ===== */
+:root {
+  --cream: #faf7f2; --warm: #f0e8da;
+  --accent: #c97d4e; --accent-dark: #9e5e35;
+  --text: #2d2520; --text-muted: #7a6a5a;
+  --card: #ffffff; --border: rgba(180,140,100,0.18);
+  --shadow: 0 2px 18px rgba(100,60,20,0.07);
+  --nav-bg: #ffffff; --hero-from: #e8ddd0; --hero-to: #d4c4b0;
+}
+[data-theme="ocean"] {
+  --cream: #f0f6fa; --warm: #daeaf4;
+  --accent: #2a7fa8; --accent-dark: #1a5f80;
+  --text: #0d2333; --text-muted: #4a7090;
+  --card: #ffffff; --border: rgba(42,127,168,0.15);
+  --shadow: 0 2px 18px rgba(20,80,120,0.07);
+  --nav-bg: #ffffff; --hero-from: #cde4f0; --hero-to: #b0cfe0;
+}
+[data-theme="forest"] {
+  --cream: #f2f7f2; --warm: #daeada;
+  --accent: #3a8a4a; --accent-dark: #2a6a38;
+  --text: #1a2e1a; --text-muted: #4a7050;
+  --card: #ffffff; --border: rgba(58,138,74,0.15);
+  --shadow: 0 2px 18px rgba(30,80,40,0.07);
+  --nav-bg: #ffffff; --hero-from: #c8e0c8; --hero-to: #b0d0b0;
+}
+[data-theme="night"] {
+  --cream: #181c24; --warm: #232a35;
+  --accent: #7a9ed4; --accent-dark: #5a80b8;
+  --text: #e8eaf0; --text-muted: #8090aa;
+  --card: #232a35; --border: rgba(120,160,210,0.15);
+  --shadow: 0 2px 18px rgba(0,0,0,0.3);
+  --nav-bg: #1a2030; --hero-from: #1e2638; --hero-to: #161c28;
+}
+[data-theme="rose"] {
+  --cream: #fdf5f7; --warm: #fae8ed;
+  --accent: #c0506a; --accent-dark: #9a3a52;
+  --text: #2d1820; --text-muted: #8a5060;
+  --card: #ffffff; --border: rgba(192,80,106,0.15);
+  --shadow: 0 2px 18px rgba(150,50,70,0.07);
+  --nav-bg: #ffffff; --hero-from: #f0d0d8; --hero-to: #e0b8c4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; transition: background 0.3s, color 0.3s; }
+
+/* NAV */
+nav {
+  background: var(--nav-bg); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 60px;
+  transition: background 0.3s;
+}
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--accent-dark); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a {
+  text-decoration: none; font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* THEME SWITCHER */
+.theme-switcher { display: flex; gap: 6px; align-items: center; margin-left: 1rem; }
+.theme-dot {
+  width: 18px; height: 18px; border-radius: 50%; cursor: pointer;
+  border: 2px solid transparent; transition: border-color 0.2s, transform 0.2s;
+}
+.theme-dot:hover, .theme-dot.active { border-color: var(--text); transform: scale(1.2); }
+.theme-dot[data-t="warm"]   { background: #c97d4e; }
+.theme-dot[data-t="ocean"]  { background: #2a7fa8; }
+.theme-dot[data-t="forest"] { background: #3a8a4a; }
+.theme-dot[data-t="night"]  { background: #4a5a7a; }
+.theme-dot[data-t="rose"]   { background: #c0506a; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--hero-from) 0%, var(--hero-to) 100%);
+  padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden;
+  transition: background 0.3s;
+}
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem,6vw,4rem); color: var(--accent-dark); margin-bottom: 0.5rem; }
+.hero p { font-size: 1.1rem; color: var(--text-muted); font-weight: 300; letter-spacing: 0.05em; }
+
+/* SECTIONS */
+.section { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
+.section-alt { background: var(--warm); transition: background 0.3s; }
+.section-alt .inner { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent-dark); margin-bottom: 0.4rem; }
+.section-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 0.5rem 0 2rem; }
+
+/* MEMBERS */
+.members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+.member-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 2rem 1.5rem; text-align: center; box-shadow: var(--shadow);
+  transition: transform 0.2s, background 0.3s; cursor: pointer;
+}
+.member-card:hover { transform: translateY(-3px); }
+.avatar {
+  width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; background: var(--warm); border: 2px solid var(--border);
+}
+.member-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.2rem; }
+.member-role { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.member-fun { font-size: 0.85rem; color: var(--text); margin-top: 0.75rem; line-height: 1.5; }
+.add-btn {
+  background: none; border: 2px dashed var(--accent); border-radius: 16px;
+  padding: 2rem 1.5rem; text-align: center; cursor: pointer; color: var(--accent);
+  font-size: 0.9rem; font-weight: 700; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.5rem; min-height: 160px;
+  transition: background 0.2s; font-family: 'Lato', sans-serif;
+}
+.add-btn:hover { background: var(--warm); }
+
+/* NOTES */
+.board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem; }
+.note-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.25rem 1.4rem; box-shadow: var(--shadow); border-left: 4px solid var(--accent);
+  transition: background 0.3s;
+}
+.note-card.c1 { border-left-color: var(--accent); }
+.note-card.c2 { border-left-color: #6a8fa0; }
+.note-card.c3 { border-left-color: #8a7fc0; }
+.note-card.c4 { border-left-color: #6aaa80; }
+.note-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+.note-text { font-size: 0.95rem; line-height: 1.6; }
+.note-author { font-size: 0.78rem; color: var(--accent); font-weight: 700; margin-top: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.new-note-form { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.4rem; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.75rem; transition: background 0.3s; }
+input, textarea, select {
+  border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.9rem;
+  font-family: 'Lato', sans-serif; font-size: 0.9rem; color: var(--text);
+  background: var(--cream); outline: none; transition: border-color 0.2s, background 0.3s, color 0.3s;
+  width: 100%;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+textarea { min-height: 80px; resize: vertical; }
+.btn-post {
+  align-self: flex-end; background: var(--accent); color: white; border: none;
+  border-radius: 8px; padding: 0.55rem 1.4rem; font-family: 'Lato', sans-serif;
+  font-weight: 700; font-size: 0.85rem; letter-spacing: 0.06em; cursor: pointer; transition: background 0.2s;
+}
+.btn-post:hover { background: var(--accent-dark); }
+
+/* CALENDAR */
+.calendar-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+@media(max-width:600px){ .calendar-wrap { grid-template-columns: 1fr; } }
+.cal-grid { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); transition: background 0.3s; }
+.cal-header { background: var(--accent); color: white; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+.cal-header button { background: none; border: none; color: white; cursor: pointer; font-size: 1.3rem; opacity: 0.8; transition: opacity 0.2s; }
+.cal-header button:hover { opacity: 1; }
+.cal-days-header { display: grid; grid-template-columns: repeat(7,1fr); background: var(--warm); padding: 0.5rem 0; transition: background 0.3s; }
+.cal-day-name { text-align: center; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; color: var(--text-muted); }
+.cal-cells { display: grid; grid-template-columns: repeat(7,1fr); gap: 1px; background: var(--border); }
+.cal-cell { background: var(--card); min-height: 44px; display: flex; flex-direction: column; align-items: center; padding: 4px 2px; transition: background 0.3s; }
+.cal-cell.today .day-num { background: var(--accent); color: white; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
+.cal-cell.other-month { background: var(--warm); }
+.cal-cell.other-month .day-num { color: var(--text-muted); opacity: 0.4; }
+.day-num { font-size: 0.82rem; }
+.event-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 2px; }
+.events-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.event-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1.1rem; display: flex; gap: 1rem; align-items: flex-start; box-shadow: var(--shadow); transition: background 0.3s; }
+.event-date-block { background: var(--warm); border-radius: 8px; padding: 0.4rem 0.6rem; text-align: center; min-width: 44px; transition: background 0.3s; }
+.event-day { font-size: 1.3rem; font-weight: 700; color: var(--accent); line-height: 1; }
+.event-mon { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.event-info-title { font-weight: 700; font-size: 0.95rem; }
+.event-info-sub { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.15rem; }
+.add-event-btn { background: none; border: 1px dashed var(--accent); border-radius: 10px; padding: 0.7rem; color: var(--accent); font-size: 0.85rem; font-weight: 700; cursor: pointer; width: 100%; margin-top: 0.5rem; transition: background 0.2s; font-family: 'Lato', sans-serif; }
+.add-event-btn:hover { background: var(--warm); }
+
+/* GALLERY */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+.gallery-slot { aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--warm); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.3s; }
+.gallery-slot:hover { transform: scale(1.02); }
+.gallery-slot img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-placeholder { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 1rem; }
+.gallery-placeholder .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.gallery-add { aspect-ratio: 1; border-radius: 12px; border: 2px dashed var(--accent); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: var(--accent); font-size: 0.85rem; font-weight: 700; gap: 0.4rem; background: none; transition: background 0.2s; font-family: 'Lato', sans-serif; }
+.gallery-add:hover { background: var(--warm); }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--card); border-radius: 18px; padding: 2rem; max-width: 420px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.18); transition: background 0.3s; }
+.modal h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--accent-dark); margin-bottom: 1.25rem; }
+.modal label { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 0.3rem; margin-top: 0.9rem; text-transform: uppercase; }
+.modal-btns { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; }
+.btn-cancel { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 1.2rem; cursor: pointer; font-family: 'Lato', sans-serif; color: var(--text-muted); font-size: 0.85rem; }
+.btn-cancel:hover { border-color: var(--accent); }
+
+footer { text-align: center; padding: 2.5rem; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+#file-input { display: none; }
+@media(max-width:640px){ nav { padding: 0 1rem; } .nav-links { gap: 0.8rem; } .section, .section-alt .inner { padding: 2rem 1rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" id="nav-logo">🏠 Familjen</div>
+  <div class="nav-links">
+    <a href="#members">Familj</a>
+    <a href="#board">Anslagstavla</a>
+    <a href="#calendar">Kalender</a>
+    <a href="#gallery">Foton</a>
+    <div class="theme-switcher" title="Välj tema">
+      <div class="theme-dot active" data-t="warm"   onclick="setTheme('warm')"></div>
+      <div class="theme-dot"        data-t="ocean"  onclick="setTheme('ocean')"></div>
+      <div class="theme-dot"        data-t="forest" onclick="setTheme('forest')"></div>
+      <div class="theme-dot"        data-t="night"  onclick="setTheme('night')"></div>
+      <div class="theme-dot"        data-t="rose"   onclick="setTheme('rose')"></div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1 id="hero-title">Välkommen hem 🌿</h1>
+  <p id="hero-sub">Vår privata plats för familjen</p>
+</div>
+
+<!-- FAMILJEMEDLEMMAR -->
+<section class="section" id="members">
+  <h2 class="section-title">Familjemedlemmar</h2>
+  <p class="section-sub">Klicka för att redigera</p>
+  <hr class="divider">
+  <div class="members-grid" id="members-grid"></div>
+</section>
+
+<!-- ANSLAGSTAVLA -->
+<div class="section-alt" id="board">
+  <div class="inner">
+    <h2 class="section-title">Anslagstavla</h2>
+    <p class="section-sub">Meddelanden, påminnelser och nyheter</p>
+    <hr class="divider">
+    <div class="board-grid" id="notes-container"></div>
+    <div class="new-note-form">
+      <strong style="font-size:0.9rem;letter-spacing:0.04em;color:var(--text-muted)">✏️ Skriv ett meddelande</strong>
+      <input type="text" id="note-author" placeholder="Ditt namn" />
+      <textarea id="note-text" placeholder="Ditt meddelande..."></textarea>
+      <button class="btn-post" onclick="postNote()">Publicera</button>
+    </div>
+  </div>
+</div>
+
+<!-- KALENDER -->
+<section class="section" id="calendar">
+  <h2 class="section-title">Kalender</h2>
+  <p class="section-sub">Kommande händelser</p>
+  <hr class="divider">
+  <div class="calendar-wrap">
+    <div class="cal-grid">
+      <div class="cal-header">
+        <button onclick="changeMonth(-1)">&#8249;</button>
+        <span id="cal-title"></span>
+        <button onclick="changeMonth(1)">&#8250;</button>
+      </div>
+      <div class="cal-days-header">
+        <div class="cal-day-name">Mån</div><div class="cal-day-name">Tis</div>
+        <div class="cal-day-name">Ons</div><div class="cal-day-name">Tor</div>
+        <div class="cal-day-name">Fre</div><div class="cal-day-name">Lör</div>
+        <div class="cal-day-name">Sön</div>
+      </div>
+      <div class="cal-cells" id="cal-cells"></div>
+    </div>
+    <div>
+      <div class="events-list" id="events-list"></div>
+      <button class="add-event-btn" onclick="openModal('event-modal')">+ Lägg till händelse</button>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERI -->
+<div class="section-alt" id="gallery">
+  <div class="inner">
+    <h2 class="section-title">Familjefoton</h2>
+    <p class="section-sub">Klicka på + för att lägga till ett foto</p>
+    <hr class="divider">
+    <div class="gallery-grid" id="gallery-grid">
+      <div class="gallery-slot"><div class="gallery-placeholder"><div class="icon">🏖️</div><div>Sommaren 2025</div></div></div>
+      <div class="gallery-slot"><div class="gallery-placeholder"><div class="icon">❄️</div><div>Julafton 2025</div></div></div>
+      <div class="gallery-slot"><div class="gallery-placeholder"><div class="icon">🎂</div><div>Mammas födelsedag</div></div></div>
+      <div class="gallery-slot"><div class="gallery-placeholder"><div class="icon">⛷️</div><div>Skidresan 2025</div></div></div>
+      <button class="gallery-add" onclick="document.getElementById('file-input').click()">
+        <span style="font-size:1.8rem">+</span>Lägg till foto
+      </button>
+    </div>
+    <p style="font-size:0.82rem;color:var(--text-muted);margin-top:1.2rem">💡 Tips: Byt ut platshållarna mot riktiga foton i data.json.</p>
+  </div>
+</div>
+
+<footer>Vår privata familjesida &nbsp;·&nbsp; Gjord med kärlek 💛</footer>
+
+<!-- MODAL: Familjemedlem -->
+<div class="modal-overlay" id="member-modal">
+  <div class="modal">
+    <h3 id="modal-title">Lägg till familjemedlem</h3>
+    <label>Namn</label><input type="text" id="m-name" placeholder="Förnamn" />
+    <label>Roll</label><input type="text" id="m-role" placeholder="T.ex. Storasyster, Mormor..." />
+    <label>Emoji</label><input type="text" id="m-emoji" placeholder="T.ex. 🎹" maxlength="4" />
+    <label>Kort beskrivning</label><textarea id="m-fun" placeholder="Vad är personen känd för i familjen?" rows="2"></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="delete-btn" style="display:none;color:#c05050;border-color:#c05050" onclick="deleteMember()">Ta bort</button>
+      <button class="btn-cancel" onclick="closeModal('member-modal')">Avbryt</button>
+      <button class="btn-post" onclick="saveMember()">Spara</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Händelse -->
+<div class="modal-overlay" id="event-modal">
+  <div class="modal">
+    <h3>Lägg till händelse</h3>
+    <label>Titel</label><input type="text" id="ev-title" placeholder="Vad händer?" />
+    <label>Datum</label><input type="date" id="ev-date" />
+    <label>Tid & plats</label><input type="text" id="ev-sub" placeholder="T.ex. Kl 18:00 · Hemma" />
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('event-modal')">Avbryt</button>
+      <button class="btn-post" onclick="saveEvent()">Spara</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="file-input" accept="image/*" onchange="handleFile(event)">
+
+<script>
+// ===== LOAD DATA =====
+let siteData = null;
+
+async function loadData() {
+  try {
+    const res = await fetch('data.json');
+    siteData = await res.json();
+  } catch(e) {
+    // Fallback om data.json inte hittas
+    siteData = {
+      site: { familyName: "Familjen", welcome: "Välkommen hem 🌿", subtitle: "Vår privata plats för familjen" },
+      theme: "warm",
+      members: [],
+      events: [],
+      messages: []
+    };
+  }
+  applyData();
+}
+
+function applyData() {
+  const d = siteData;
+  document.title = d.site.familyName;
+  document.getElementById('nav-logo').textContent = '🏠 ' + d.site.familyName;
+  document.getElementById('hero-title').textContent = d.site.welcome;
+  document.getElementById('hero-sub').textContent = d.site.subtitle;
+  setTheme(d.theme || 'warm', false);
+  renderMembers();
+  renderNotes();
+  renderEvents();
+  buildCalendar();
+}
+
+// ===== THEME =====
+function setTheme(t, save=true) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-dot').forEach(d => d.classList.toggle('active', d.dataset.t === t));
+  if (save && siteData) siteData.theme = t;
+}
+
+// ===== MEMBERS =====
+let editingMemberIndex = -1;
+const avatarBg = ['#c97d4e','#6a8fa0','#8a7fc0','#6aaa80','#c06a8a','#a07840','#507090'];
+
+function renderMembers() {
+  const grid = document.getElementById('members-grid');
+  grid.innerHTML = '';
+  siteData.members.forEach((m, i) => {
+    const div = document.createElement('div');
+    div.className = 'member-card';
+    div.onclick = () => editMember(i);
+    div.innerHTML = `<div class="avatar">${m.emoji || m.name[0]}</div>
+      <div class="member-name">${m.name}</div>
+      <div class="member-role">${m.role}</div>
+      <div class="member-fun">${m.description}</div>`;
+    grid.appendChild(div);
+  });
+  const add = document.createElement('button');
+  add.className = 'add-btn';
+  add.onclick = openAddMember;
+  add.innerHTML = '<span style="font-size:2rem">+</span>Lägg till familjemedlem';
+  grid.appendChild(add);
+}
+
+function openAddMember() {
+  editingMemberIndex = -1;
+  document.getElementById('modal-title').textContent = 'Lägg till familjemedlem';
+  document.getElementById('m-name').value = '';
+  document.getElementById('m-role').value = '';
+  document.getElementById('m-emoji').value = '';
+  document.getElementById('m-fun').value = '';
+  document.getElementById('delete-btn').style.display = 'none';
+  openModal('member-modal');
+}
+
+function editMember(i) {
+  editingMemberIndex = i;
+  const m = siteData.members[i];
+  document.getElementById('modal-title').textContent = 'Redigera familjemedlem';
+  document.getElementById('m-name').value = m.name;
+  document.getElementById('m-role').value = m.role;
+  document.getElementById('m-emoji').value = m.emoji || '';
+  document.getElementById('m-fun').value = m.description;
+  document.getElementById('delete-btn').style.display = 'block';
+  openModal('member-modal');
+}
+
+function saveMember() {
+  const name = document.getElementById('m-name').value.trim();
+  const role = document.getElementById('m-role').value.trim();
+  const emoji = document.getElementById('m-emoji').value.trim();
+  const description = document.getElementById('m-fun').value.trim();
+  if (!name) return;
+  const obj = { name, role, emoji: emoji || name[0], description };
+  if (editingMemberIndex >= 0) siteData.members[editingMemberIndex] = obj;
+  else siteData.members.push(obj);
+  renderMembers();
+  closeModal('member-modal');
+}
+
+function deleteMember() {
+  if (editingMemberIndex >= 0) { siteData.members.splice(editingMemberIndex, 1); renderMembers(); }
+  closeModal('member-modal');
+}
+
+// ===== NOTES =====
+const noteColors = ['c1','c2','c3','c4'];
+function renderNotes() {
+  const c = document.getElementById('notes-container');
+  c.innerHTML = '';
+  siteData.messages.forEach((n, i) => {
+    const div = document.createElement('div');
+    div.className = 'note-card ' + noteColors[i % 4];
+    div.innerHTML = `<div class="note-meta">${n.date}</div>
+      <div class="note-text">${n.text}</div>
+      <div class="note-author">— ${n.author}</div>`;
+    c.appendChild(div);
+  });
+}
+
+function postNote() {
+  const author = document.getElementById('note-author').value.trim();
+  const text = document.getElementById('note-text').value.trim();
+  if (!text) return;
+  const today = new Date().toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+  siteData.messages.unshift({ author: author || 'Anonym', text, date: today });
+  renderNotes();
+  document.getElementById('note-text').value = '';
+  document.getElementById('note-author').value = '';
+}
+
+// ===== EVENTS / CALENDAR =====
+let calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
+const monthNames = ['Januari','Februari','Mars','April','Maj','Juni','Juli','Augusti','September','Oktober','November','December'];
+const monthShort = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
+
+function renderEvents() {
+  const list = document.getElementById('events-list');
+  list.innerHTML = '';
+  const sorted = [...siteData.events].sort((a,b) => a.date.localeCompare(b.date));
+  sorted.forEach(ev => {
+    const [y, m, d] = ev.date.split('-');
+    const div = document.createElement('div');
+    div.className = 'event-item';
+    div.innerHTML = `<div class="event-date-block"><div class="event-day">${parseInt(d)}</div><div class="event-mon">${monthShort[parseInt(m)-1]}</div></div>
+      <div><div class="event-info-title">${ev.title}</div>${ev.details ? `<div class="event-info-sub">${ev.details}</div>` : ''}</div>`;
+    list.appendChild(div);
+  });
+}
+
+function buildCalendar() {
+  document.getElementById('cal-title').textContent = monthNames[calMonth] + ' ' + calYear;
+  const cells = document.getElementById('cal-cells');
+  cells.innerHTML = '';
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const offset = firstDay === 0 ? 6 : firstDay - 1;
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const prevDays = new Date(calYear, calMonth, 0).getDate();
+  const today = new Date();
+  const eventDates = siteData.events.map(e => e.date);
+
+  for (let i = 0; i < offset; i++) {
+    const c = document.createElement('div');
+    c.className = 'cal-cell other-month';
+    c.innerHTML = `<span class="day-num">${prevDays - offset + 1 + i}</span>`;
+    cells.appendChild(c);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const c = document.createElement('div');
+    const ds = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const isToday = today.getFullYear()===calYear && today.getMonth()===calMonth && today.getDate()===d;
+    c.className = 'cal-cell' + (isToday ? ' today' : '');
+    c.innerHTML = `<span class="day-num">${d}</span>${eventDates.includes(ds) ? '<div class="event-dot"></div>' : ''}`;
+    cells.appendChild(c);
+  }
+  const rem = (offset + daysInMonth) % 7;
+  for (let i = 1; i < (rem === 0 ? 1 : 8 - rem); i++) {
+    const c = document.createElement('div');
+    c.className = 'cal-cell other-month';
+    c.innerHTML = `<span class="day-num">${i}</span>`;
+    cells.appendChild(c);
+  }
+}
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  buildCalendar();
+}
+
+function saveEvent() {
+  const title = document.getElementById('ev-title').value.trim();
+  const date = document.getElementById('ev-date').value;
+  const details = document.getElementById('ev-sub').value.trim();
+  if (!title || !date) return;
+  siteData.events.push({ date, title, details });
+  renderEvents();
+  buildCalendar();
+  closeModal('event-modal');
+}
+
+// ===== GALLERY =====
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const grid = document.getElementById('gallery-grid');
+    const slot = document.createElement('div');
+    slot.className = 'gallery-slot';
+    slot.innerHTML = `<img src="${ev.target.result}" alt="Familjefoto">`;
+    grid.insertBefore(slot, grid.lastElementChild);
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+// ===== MODAL =====
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(el => el.addEventListener('click', e => { if(e.target===el) el.classList.remove('open'); }));
+
+// ===== START =====
+loadData();
+</script>
+</body>
+</html>
